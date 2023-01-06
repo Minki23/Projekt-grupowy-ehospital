@@ -8,10 +8,10 @@ import java.util.List;
 
 public final class Connection {
 
-    private static final String filenameAdmins = "DODAC SWOJA SCIEZKE DO PLIKU Z ADMINAMI";
-    private static final String filenamePatients = "DODAC SWOJA SCIEZKE DO PLIKU Z PACJENTAMI";
-    private static final String filenameDoctors = "DODAC SWOJA SCIEZKE DO PLIKU Z LEKARZAMI";
-    private static final String filenameDoctorsRequests = "DODAC SWOJA SCIEZKE DO PLIKU Z LEKARZAMI CZEKAJACYMI NA AKCEPTACJE";
+    private static final String filenameAdmins = "admins.txt";
+    private static final String filenamePatients = "patients.txt";
+    private static final String filenameDoctors = "doctors.txt";
+    private static final String filenameDoctorsRequests = "doctors_requests.txt";
     private static List<Admin> admins = new ArrayList<>();
     private static List<Patient> patients = new ArrayList<>();
     private static List<Doctor> doctors = new ArrayList<>();

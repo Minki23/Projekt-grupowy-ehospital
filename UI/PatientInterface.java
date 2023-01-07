@@ -1,6 +1,6 @@
 package UI;
 
-import GUI.AdminGraphicInterface;
+
 import GUI.PatientGraphicInterface;
 import Model.Patient;
 

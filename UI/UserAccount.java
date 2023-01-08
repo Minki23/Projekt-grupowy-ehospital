@@ -162,6 +162,7 @@ public final class UserAccount {
         } while (safeCreate);
 
         Connection.getPatients().add(new Patient(firstName, surname, password, personalID, email, contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, bloodGroup, weight, height));
+        Connection.savePatients();
         System.out.println("Account created successfully!");
     }
 
@@ -343,6 +344,7 @@ public final class UserAccount {
         Connection.getDoctorsRegisterRequests().add(new Doctor(firstName, surname, password, personalID, email, contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, specialization, doctorID));
 
         System.out.println("Account created successfully!\nYour registration will be considered by an admin, after that you will be able to login");
+        Connection.saveDoctorsRequests();
     }
 
     public static void doctorLogin() {

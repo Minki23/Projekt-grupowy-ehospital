@@ -85,7 +85,9 @@ public final class AdminInterface {
             System.out.println("Enter 0 to exit");
             System.out.print("Enter index of the doctor you want to accept: ");
             doctorToAccept = UserAccount.getIntInput();
-            loggedAdmin.acceptDoctor(Connection.getDoctorsRegisterRequests().get(doctorToAccept - 1));
+            if (doctorToAccept != 0) {
+                loggedAdmin.acceptDoctor(Connection.getDoctorsRegisterRequests().get(doctorToAccept - 1));
+            }
         } while (doctorToAccept != 0);
     }
 }

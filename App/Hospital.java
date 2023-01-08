@@ -18,6 +18,8 @@ public class Hospital {
         System.out.println(Connection.getAdmins().toString().replace("[", "").replace("]", ""));
         System.out.println();
 
+        Doctor.generateDoctors(5);
+
         displayAllPatients();
         displayAllDoctors();
 

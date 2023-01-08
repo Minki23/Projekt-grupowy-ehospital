@@ -1,6 +1,7 @@
 package Model;
 
 import Data.Connection;
+import Service.Opinion;
 import UI.UserAccount;
 import java.util.Random;
 
@@ -13,7 +14,7 @@ public class Doctor extends Person implements Serializable {
 
     private Specialization specialization;
     private int doctorId;
-    private ArrayList<Double> opinions = new ArrayList<>();
+    private ArrayList<Opinion> opinions = new ArrayList<>();
     private double averageOpinion;
 
     public Doctor() {
@@ -30,9 +31,10 @@ public class Doctor extends Person implements Serializable {
         this.doctorId = doctorId;
 
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
-            double opinion = Math.round((random.nextDouble() * 9 + 1) * 100) / 100.0;
-            opinions.add(opinion);
+        for (int i = 1; i <= 10; i++) {
+            int value = random.nextInt(10) + 1;
+            String content = "Opinion " + i;
+            opinions.add(new Opinion(value, content));
         }
         this.averageOpinion = this.calculateAverageOpinion();
     }
@@ -53,11 +55,11 @@ public class Doctor extends Person implements Serializable {
         this.doctorId = doctorId;
     }
 
-    public ArrayList<Double> getOpinions() {
+    public ArrayList<Opinion> getOpinions() {
         return opinions;
     }
 
-    public void setOpinions(ArrayList<Double> opinions) {
+    public void setOpinions(ArrayList<Opinion> opinions) {
         this.opinions = opinions;
     }
 
@@ -81,8 +83,8 @@ public class Doctor extends Person implements Serializable {
 
     public double calculateAverageOpinion() {
         double sum = 0.0;
-        for (double opinion : opinions) {
-            sum += opinion;
+        for (Opinion opinion : opinions) {
+            sum += opinion.getValue();
         }
         return Math.round(sum / opinions.size() * 100) / 100.0;
     }

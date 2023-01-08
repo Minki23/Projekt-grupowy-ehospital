@@ -5,6 +5,7 @@ import GUI.DoctorGraphicInterface;
 import Model.Doctor;
 import Model.Patient;
 import Model.Specialization;
+import Service.Opinion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public final class DoctorInterface {
         UserAccount.doctorLogin();
         if (UserAccount.getLoggedDoctor() != null) {
             Doctor loggedDoctor = UserAccount.getLoggedDoctor();
-            System.out.println("You are logged as: " + loggedDoctor);
+            System.out.println("\nYou are logged as: " + loggedDoctor);
 
             int choice;
             do {
@@ -290,8 +291,8 @@ public final class DoctorInterface {
 
     public static void showMyOpinions(Doctor loggedDoctor) {
         System.out.println("\nMy opinions:");
-        for (double opinion : loggedDoctor.getOpinions()) {
-            System.out.print("\t" + opinion + "\n");
+        for (Opinion opinion : loggedDoctor.getOpinions()) {
+            System.out.println("\t" + opinion);
         }
         System.out.println("\nMy average opinion: " + loggedDoctor.getAverageOpinion());
     }

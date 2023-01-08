@@ -10,6 +10,7 @@ public class Hospital {
 
     public static void main(String[] args) {
 
+
         Connection.loadAllData();
 
         System.out.println("Patients number: " + Connection.getPatients().size());

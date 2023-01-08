@@ -5,9 +5,9 @@ public class PatientGraphicInterface {
     public static void displayPatientInterface() {
 
         System.out.println("-------------------------");
-        System.out.println("| 0: LOG OUT            |");
-        System.out.println("| 1: SEE MY PROFILE     |");
-        System.out.println("| 2: MAKE AN APPOINTMENT|");
+        System.out.println("| 0: Log out             |");
+        System.out.println("| 1: View my profile     |");
+        System.out.println("| 2: Make an appointment |");
         System.out.println("-------------------------");
     }
 }

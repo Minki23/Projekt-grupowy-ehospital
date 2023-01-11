@@ -1,13 +1,14 @@
 package Model;
 
 import Data.Connection;
+import Service.Appointment;
 import Service.Opinion;
 import UI.UserAccount;
-import java.util.Random;
+
+import java.util.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Doctor extends Person implements Serializable {
@@ -15,6 +16,8 @@ public class Doctor extends Person implements Serializable {
     private Specialization specialization;
     private int doctorId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
+
+    private ArrayList<Appointment> doctorAppointments= new ArrayList<>();
     private double averageOpinion;
 
     public Doctor() {
@@ -53,6 +56,10 @@ public class Doctor extends Person implements Serializable {
 
     public void setDoctorId(int doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public ArrayList<Appointment>getDoctorAppointments(){
+        return doctorAppointments;
     }
 
     public ArrayList<Opinion> getOpinions() {

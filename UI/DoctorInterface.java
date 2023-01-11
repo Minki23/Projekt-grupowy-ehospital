@@ -231,7 +231,7 @@ public final class DoctorInterface {
                 \t1. Family doctor
                 \t2. Heart specialist
                 \t3. Orthopedist
-                \t4. Gynecologist
+                \t4. Lungs Specialist
                 """);
         System.out.print("\nChoice: ");
         int newChoice = UserAccount.getIntInput();

@@ -2,12 +2,18 @@ package UI;
 
 
 import GUI.PatientGraphicInterface;
+import Model.Doctor;
 import Model.Patient;
+import Model.Specialization;
+import Service.Appointment;
+
+import java.util.ArrayList;
 
 public final class PatientInterface {
 
     private PatientInterface() {
     }
+
 
     public static void mainInterface() {
 
@@ -35,7 +41,19 @@ public final class PatientInterface {
         System.out.println(loggedPatient);
     }
     public static void makeAnAppointment(Patient loggedPatient){
-        System.out.println("Making appointment...");
-    }
+        System.out.println("|Choose Your specialist|");
+        System.out.println("-----------------------");
+        System.out.println("| '1' Family Doctor    |");
+        System.out.println("| '2' Heart Specialist |");
+        System.out.println("| '3' Orthopedist      |");
+        System.out.println("| '4' Lungs Specialist |");
+        String patientChoice = UserAccount.getStringInput();
+        switch (patientChoice){
+            case "1":{}
+            case "2":{}
+            case "3":{}
+            case "4":{}
+        }
 
+    }
 }

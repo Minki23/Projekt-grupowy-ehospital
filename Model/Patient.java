@@ -1,13 +1,18 @@
 package Model;
 
+import Service.Appointment;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Patient extends Person implements Serializable {
 
     private String bloodGroup;
     private int weight;
     private int height;
+
+    private ArrayList<Appointment> patientAppointments = new ArrayList<>();
 
     public Patient() {
         super();
@@ -25,6 +30,14 @@ public class Patient extends Person implements Serializable {
 
     public String getBloodGroup() {
         return bloodGroup;
+    }
+
+    public ArrayList<Appointment> getPatientAppointments() {
+        return patientAppointments;
+    }
+
+    public void setPatientAppointments(ArrayList<Appointment> patientAppointments) {
+        this.patientAppointments = patientAppointments;
     }
 
     public void setBloodGroup(String bloodGroup) {

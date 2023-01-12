@@ -1,20 +1,15 @@
 package UI;
 
 import Data.Connection;
+import Data.Input;
 import GUI.AdminGraphicInterface;
 import Model.Admin;
+import Model.Doctor;
+import Model.Patient;
 
-public final class AdminInterface {
+public class AdminInterface {
 
-    private AdminInterface() {}
-
-    public static void continueButton() {
-
-        System.out.print("Press any key to continue...");
-        String continueButton = UserAccount.getStringInput();
-    }
-
-    public static void mainInterface() {
+    public AdminInterface() {
 
         UserAccount.adminLogin();
         if (UserAccount.getLoggedAdmin() != null) {
@@ -26,9 +21,11 @@ public final class AdminInterface {
             do {
                 AdminGraphicInterface.displayAdminInterface();
                 System.out.print(": ");
-                choice = UserAccount.getIntInput();
+                choice = Input.getInt();
                 switch (choice) {
-                    case 0 -> {}
+                    case 0 -> {
+                        UserAccount.setLoggedAdmin(null);
+                    }
                     case 1 -> {
                         removePatientInterface(loggedAdmin);
                         continueButton();
@@ -41,6 +38,14 @@ public final class AdminInterface {
                         acceptDoctorInterface(loggedAdmin);
                         continueButton();
                     }
+                    case 4 -> {
+                        displayAllPatients();
+                        continueButton();
+                    }
+                    case 5 -> {
+                        displayAllDoctors();
+                        continueButton();
+                    }
                     default -> throw new IllegalStateException("Unexpected value: " + choice);
                 }
                 System.out.println();
@@ -48,29 +53,35 @@ public final class AdminInterface {
         }
     }
 
-    public static void removePatientInterface(Admin loggedAdmin) {
+    public void continueButton() {
+
+        System.out.print("Press any key to continue...");
+        String continueButton = Input.getString();
+    }
+
+    public void removePatientInterface(Admin loggedAdmin) {
 
         System.out.println("Choose patient to remove:");
         for (int i = 0; i < Connection.getPatients().size(); i++) {
             System.out.println((i + 1) + ": " + Connection.getPatients().get(i));
         }
         System.out.print(": ");
-        int patientToRemove = UserAccount.getIntInput();
+        int patientToRemove = Input.getInt();
         loggedAdmin.removePatient(Connection.getPatients().get(patientToRemove - 1));
     }
 
-    public static void removeDoctorInterface(Admin loggedAdmin) {
+    public void removeDoctorInterface(Admin loggedAdmin) {
 
         System.out.println("Choose doctor to remove");
         for (int i = 0; i < Connection.getDoctors().size(); i++) {
             System.out.println((i + 1) + ": " + Connection.getDoctors().get(i));
         }
         System.out.print(": ");
-        int doctorToRemove = UserAccount.getIntInput();
+        int doctorToRemove = Input.getInt();
         loggedAdmin.removeDoctor(Connection.getDoctors().get(doctorToRemove - 1));
     }
 
-    public static void acceptDoctorInterface(Admin loggedAdmin) {
+    public void acceptDoctorInterface(Admin loggedAdmin) {
 
         System.out.println("Doctors pending requests:");
         int doctorToAccept;
@@ -84,10 +95,30 @@ public final class AdminInterface {
             }
             System.out.println("Enter 0 to exit");
             System.out.print("Enter index of the doctor you want to accept: ");
-            doctorToAccept = UserAccount.getIntInput();
+            doctorToAccept = Input.getInt();
             if (doctorToAccept != 0) {
                 loggedAdmin.acceptDoctor(Connection.getDoctorsRegisterRequests().get(doctorToAccept - 1));
             }
         } while (doctorToAccept != 0);
+    }
+
+    public void displayAllPatients() {
+
+        System.out.println("Patients registered in hospital: " + Connection.getPatients().size());
+        System.out.println("Patients:");
+        for (Patient patient : Connection.getPatients()) {
+            System.out.println(patient);
+        }
+        System.out.println();
+    }
+
+    public void displayAllDoctors() {
+
+        System.out.println("Doctors registered in hospital: " + Connection.getDoctors().size());
+        System.out.println("Doctors:");
+        for (Doctor doctor : Connection.getDoctors()) {
+            System.out.println(doctor);
+        }
+        System.out.println();
     }
 }

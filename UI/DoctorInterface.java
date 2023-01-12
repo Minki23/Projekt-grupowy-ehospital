@@ -1,6 +1,8 @@
 package UI;
 
 import Data.Connection;
+import Data.Input;
+import Data.UserData;
 import GUI.DoctorGraphicInterface;
 import Model.Doctor;
 import Model.Patient;
@@ -12,12 +14,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 
-public final class DoctorInterface {
+public class DoctorInterface {
 
-    private DoctorInterface() {
-    }
-
-    public static void mainInterface() {
+    public DoctorInterface() {
 
         UserAccount.doctorLogin();
         if (UserAccount.getLoggedDoctor() != null) {
@@ -28,9 +27,9 @@ public final class DoctorInterface {
             do {
                 DoctorGraphicInterface.displayDoctorInterface();
                 System.out.print(": ");
-                choice = UserAccount.getIntInput();
+                choice = Input.getInt();
                 switch (choice) {
-                    case 0 -> {}
+                    case 0 -> UserAccount.setLoggedDoctor(null);
                     case 1 -> displayMyProfile(loggedDoctor);
                     case 2 -> editMyProfile(loggedDoctor);
                     case 3 -> displayPatients(searchForPatients());
@@ -43,11 +42,11 @@ public final class DoctorInterface {
         }
     }
 
-    public static void displayMyProfile(Doctor loggedDoctor) {
+    public void displayMyProfile(Doctor loggedDoctor) {
         System.out.println("\n" + loggedDoctor);
     }
 
-    public static void editMyProfile(Doctor loggedDoctor) {
+    public void editMyProfile(Doctor loggedDoctor) {
         int choice;
         do {
             System.out.println("\nYou are logged as: " + loggedDoctor);
@@ -68,7 +67,7 @@ public final class DoctorInterface {
                     \t0: Exit
                     """);
             System.out.print("Choice: ");
-            choice = UserAccount.getIntInput();
+            choice = Input.getInt();
             System.out.println();
 
             try {
@@ -92,34 +91,31 @@ public final class DoctorInterface {
             catch (InputMismatchException invalidInput) {
                 System.out.println("\nInvalid data\n");
             }
-
-            AdminInterface.continueButton();
-            Connection.saveDoctors();
         }
         while (choice != 0);
     }
 
-    public static void changeFirstName(Doctor loggedDoctor) {
+    public void changeFirstName(Doctor loggedDoctor) {
         System.out.print("Enter new first name: ");
-        String newFirstName = UserAccount.nameValidate(UserAccount.getStringInput());
+        String newFirstName = UserData.nameValidate(Input.getString());
         loggedDoctor.setFirstName(newFirstName);
         System.out.println("\nFirst name changed successfully");
     }
 
-    public static void changeSurname(Doctor loggedDoctor) {
+    public void changeSurname(Doctor loggedDoctor) {
         System.out.print("Enter new surname: ");
-        String newSurname = UserAccount.nameValidate(UserAccount.getStringInput());
+        String newSurname = UserData.nameValidate(Input.getString());
         loggedDoctor.setFirstName(newSurname);
         System.out.println("\nSurname changed successfully");
     }
 
-    public static void changePassword(Doctor loggedDoctor) {
+    public void changePassword(Doctor loggedDoctor) {
         System.out.print("Enter old password: ");
-        String oldPassword = UserAccount.getStringInput();
+        String oldPassword = Input.getString();
         if (oldPassword.equals(loggedDoctor.getPassword())) {
             System.out.print("Enter new password: ");
-            String newPassword = UserAccount.getStringInput();
-            if (UserAccount.passwordValidate(newPassword)) {
+            String newPassword = Input.getString();
+            if (UserData.passwordValidate(newPassword)) {
                 System.out.println("\nPassword must contain at least 8 characters!");
                 System.out.println("Password has not been changed");
             }
@@ -133,10 +129,10 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changePersonalIdNumber(Doctor loggedDoctor) {
+    public void changePersonalIdNumber(Doctor loggedDoctor) {
         System.out.print("Enter new personal ID number: ");
-        String newPersonalIdNumber = UserAccount.getStringInput();
-        if (UserAccount.personalIDValidate(newPersonalIdNumber)) {
+        String newPersonalIdNumber = Input.getString();
+        if (UserData.personalIDValidate(newPersonalIdNumber)) {
             System.out.println("\nIncorrect personal ID number");
             System.out.println("Personal ID number has not been changed");
         }
@@ -146,10 +142,10 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeEmail(Doctor loggedDoctor) {
+    public void changeEmail(Doctor loggedDoctor) {
         System.out.print("Enter new e-mail: ");
-        String newEmail = UserAccount.getStringInput();
-        if (UserAccount.emailValidate(newEmail)) {
+        String newEmail = Input.getString();
+        if (UserData.emailValidate(newEmail)) {
             System.out.println("\nIncorrect e-mail address");
         }
         else {
@@ -158,10 +154,10 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeContactNumber(Doctor loggedDoctor) {
+    public void changeContactNumber(Doctor loggedDoctor) {
         System.out.print("Enter new contact number: ");
-        String newContactNumber = UserAccount.getStringInput();
-        if (UserAccount.phoneNumberValidate(newContactNumber)) {
+        String newContactNumber = Input.getString();
+        if (UserData.phoneNumberValidate(newContactNumber)) {
             System.out.println("\nIncorrect contact number");
             System.out.println("Contact number has not been changed");
         }
@@ -171,24 +167,24 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeCity(Doctor loggedDoctor) {
+    public void changeCity(Doctor loggedDoctor) {
         System.out.print("Enter new city: ");
-        String newCity = UserAccount.nameValidate(UserAccount.getStringInput());
+        String newCity = UserData.nameValidate(Input.getString());
         loggedDoctor.setCity(newCity);
         System.out.println("\nCity changed successfully");
     }
 
-    public static void changeStreet(Doctor loggedDoctor) {
+    public void changeStreet(Doctor loggedDoctor) {
         System.out.print("Enter new street name: ");
-        String newStreet = UserAccount.nameValidate(UserAccount.getStringInput());
+        String newStreet = UserData.nameValidate(Input.getString());
         loggedDoctor.setStreet(newStreet);
         System.out.println("\nStreet name changed successfully");
     }
 
-    public static void changeHouseNumber(Doctor loggedDoctor) {
+    public void changeHouseNumber(Doctor loggedDoctor) {
         System.out.print("Enter new house number: ");
-        int newHouseNumber = UserAccount.getIntInput();
-        if (UserAccount.positiveNumberValidate(newHouseNumber)) {
+        int newHouseNumber = Input.getInt();
+        if (UserData.positiveNumberValidate(newHouseNumber)) {
             System.out.println("\nIncorrect house number");
             System.out.println("House number has not been changed");
         }
@@ -198,10 +194,10 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeDateOfBirth(Doctor loggedDoctor) {
+    public void changeDateOfBirth(Doctor loggedDoctor) {
         System.out.print("Enter new date of birth (YYY-MM-DD): ");
-        String newDateOfBirth = UserAccount.getStringInput();
-        if (UserAccount.dateValidate(newDateOfBirth)) {
+        String newDateOfBirth = Input.getString();
+        if (UserData.dateValidate(newDateOfBirth)) {
             System.out.println("\nIncorrect date of birth");
             System.out.println("Date of birth has not been changed");
         }
@@ -212,10 +208,10 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeGender(Doctor loggedDoctor) {
+    public void changeGender(Doctor loggedDoctor) {
         System.out.print("Enter new gender (M - male / F - female): ");
-        char newGender = UserAccount.getCharInput();
-        if (UserAccount.genderValidate(newGender)) {
+        char newGender = Input.getChar();
+        if (UserData.genderValidate(newGender)) {
             System.out.println("\nIncorrect gender");
             System.out.println("Gender has not been changed");
         }
@@ -225,7 +221,7 @@ public final class DoctorInterface {
         }
     }
 
-    public static void changeSpecialization(Doctor loggedDoctor) {
+    public void changeSpecialization(Doctor loggedDoctor) {
         System.out.println("""
                 Choose new specialization:
                 \t1. Family doctor
@@ -234,8 +230,8 @@ public final class DoctorInterface {
                 \t4. Lungs Specialist
                 """);
         System.out.print("\nChoice: ");
-        int newChoice = UserAccount.getIntInput();
-        if (UserAccount.specializationValidate(newChoice)) {
+        int newChoice = Input.getInt();
+        if (UserData.specializationValidate(newChoice)) {
             System.out.println("\nIncorrect value");
             System.out.println("Specialization has not been changed");
         }
@@ -252,12 +248,12 @@ public final class DoctorInterface {
         }
     }
 
-    public static List<Patient> searchForPatients() {
+    public List<Patient> searchForPatients() {
         List<Patient> patients = new ArrayList<>();
 
         System.out.println("Enter first name and surname or personal ID number of the patient");
-        String userInput = UserAccount.getStringInput();
-        if (UserAccount.isNumeric(userInput)) {
+        String userInput = Input.getString();
+        if (UserData.isNumeric(userInput)) {
             for (int i = 0; i < Connection.getPatients().size(); i++) {
                 if (userInput.equals(Connection.getPatients().get(i).getPersonalIdNumber()))
                     patients.add(Connection.getPatients().get(i));
@@ -269,7 +265,8 @@ public final class DoctorInterface {
                 return patients;
             }
             for (int i = 0; i < Connection.getPatients().size(); i++) {
-                if ((name[0].equals(Connection.getPatients().get(i).getFirstName())) && (name[1].equals(Connection.getPatients().get(i).getSurname())))
+                if ((name[0].equals(Connection.getPatients().get(i).getFirstName())) &&
+                        (name[1].equals(Connection.getPatients().get(i).getSurname())))
                     patients.add(Connection.getPatients().get(i));
             }
         }
@@ -277,7 +274,7 @@ public final class DoctorInterface {
         return patients;
     }
 
-    public static void displayPatients(List<Patient> patients) {
+    public void displayPatients(List<Patient> patients) {
         if (patients.size() == 0) {
             System.out.println("Patient not found");
         } else if (patients.size() == 1) {
@@ -289,7 +286,7 @@ public final class DoctorInterface {
         }
     }
 
-    public static void showMyOpinions(Doctor loggedDoctor) {
+    public void showMyOpinions(Doctor loggedDoctor) {
         System.out.println("\nMy opinions:");
         for (Opinion opinion : loggedDoctor.getOpinions()) {
             System.out.println("\t" + opinion);

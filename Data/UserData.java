@@ -216,7 +216,7 @@ public class UserData {
 
         for (int i = 0; i < bloodTypes.length; i++) {
 
-            System.out.print((i + 1) + ": " + bloodTypes[i]);
+            System.out.println((i + 1) + ": " + bloodTypes[i]);
         }
         System.out.print("Choose your blood group: ");
         while (true) {

@@ -1,6 +1,7 @@
 package UI;
 
 
+import Data.Input;
 import GUI.PatientGraphicInterface;
 import Model.Doctor;
 import Model.Patient;
@@ -9,13 +10,9 @@ import Service.Appointment;
 
 import java.util.ArrayList;
 
-public final class PatientInterface {
+public class PatientInterface {
 
-    private PatientInterface() {
-    }
-
-
-    public static void mainInterface() {
+    public PatientInterface() {
 
         UserAccount.patientLogin();
         if (UserAccount.getLoggedPatient() != null) {
@@ -25,7 +22,7 @@ public final class PatientInterface {
             do {
                 PatientGraphicInterface.displayPatientInterface();
                 System.out.print(": ");
-                choice = UserAccount.getIntInput();
+                choice = Input.getInt();
                 switch (choice) {
                     case 0 -> {}
                     case 1 -> displayMyProfile(loggedPatient);
@@ -47,13 +44,12 @@ public final class PatientInterface {
         System.out.println("| '2' Heart Specialist |");
         System.out.println("| '3' Orthopedist      |");
         System.out.println("| '4' Lungs Specialist |");
-        String patientChoice = UserAccount.getStringInput();
+        String patientChoice = Input.getString();
         switch (patientChoice){
             case "1":{}
             case "2":{}
             case "3":{}
             case "4":{}
         }
-
     }
 }

@@ -3,8 +3,10 @@ package Model;
 import Data.Connection;
 import Service.Appointment;
 import Service.Opinion;
-import UI.UserAccount;
+import Service.Workday;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 import java.io.Serializable;
@@ -16,9 +18,22 @@ public class Doctor extends Person implements Serializable {
     private Specialization specialization;
     private int doctorId;
     private ArrayList<Opinion> opinions = new ArrayList<>();
-
-    private ArrayList<Appointment> doctorAppointments= new ArrayList<>();
     private double averageOpinion;
+
+    private static HashMap<String, Workday> doctorAppointments = new HashMap<>();
+
+    public static HashMap<String, Workday> CreateMyCalendar(){
+        Random random = new Random();
+        for(int i = 1 ; i<=28 ; i++){
+            doctorAppointments.put(String.valueOf(i),new Workday(LocalDate.of(2022,2,i),
+                    LocalTime.of(random.nextInt(8,13),0),
+                    LocalTime.of(random.nextInt(15,19),0)));
+
+        }
+        return doctorAppointments;
+    }
+
+
 
     public Doctor() {
         super();
@@ -40,6 +55,8 @@ public class Doctor extends Person implements Serializable {
             opinions.add(new Opinion(value, content));
         }
         this.averageOpinion = this.calculateAverageOpinion();
+
+
     }
 
     public Specialization getSpecialization() {
@@ -58,9 +75,7 @@ public class Doctor extends Person implements Serializable {
         this.doctorId = doctorId;
     }
 
-    public ArrayList<Appointment>getDoctorAppointments(){
-        return doctorAppointments;
-    }
+
 
     public ArrayList<Opinion> getOpinions() {
         return opinions;

@@ -1,38 +1,52 @@
 package Service;
 
+
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalTime;
+
 
 public class Appointment implements Serializable {
 
-    private Date dateOfAppointment;
-    private int feeOfAppointment;
+    private boolean isBooked;
+    private LocalTime startAppointment;
+    private LocalTime endAppointment;
 
-    public Appointment(Date dateOfAppointment, int feeOfAppointment) {
-        this.dateOfAppointment = dateOfAppointment;
-        this.feeOfAppointment = feeOfAppointment;
+    public Appointment(boolean isBooked, LocalTime startAppointment, LocalTime endAppointment) {
+        this.isBooked = isBooked;
+        this.startAppointment = startAppointment;
+        this.endAppointment = endAppointment;
     }
 
-    public Date getDateOfAppointment() {
-        return dateOfAppointment;
+    public boolean isBooked() {
+        return isBooked;
     }
 
-    public void setDateOfAppointment(Date dateOfAppointment) {
-        this.dateOfAppointment = dateOfAppointment;
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 
-    public int getFeeOfAppointment() {
-        return feeOfAppointment;
+    public LocalTime getStartAppointment() {
+        return startAppointment;
     }
 
-    public void setFeeOfAppointment(int feeOfAppointment) {
-        this.feeOfAppointment = feeOfAppointment;
+    public void setStartAppointment(LocalTime startAppointment) {
+        this.startAppointment = startAppointment;
+    }
+
+    public LocalTime getEndAppointment() {
+        return endAppointment;
+    }
+
+    public void setEndAppointment(LocalTime endAppointment) {
+        this.endAppointment = endAppointment;
     }
 
     @Override
     public String toString() {
-        return "Date of appointment: " + dateOfAppointment +
-                "\tFee: " + feeOfAppointment;
-
+        return "Appointment{" +
+                "isBooked=" + isBooked +
+                ", startAppointment=" + startAppointment +
+                ", endAppointment=" + endAppointment +
+                '}';
     }
 }

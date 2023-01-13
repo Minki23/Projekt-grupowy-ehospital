@@ -7,7 +7,9 @@ import GUI.DoctorGraphicInterface;
 import Model.Doctor;
 import Model.Patient;
 import Model.Specialization;
+import Service.Appointment;
 import Service.Opinion;
+import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class DoctorInterface {
                     case 1 -> displayMyProfile(loggedDoctor);
                     case 2 -> editMyProfile(loggedDoctor);
                     case 3 -> displayPatients(searchForPatients());
-                    case 4 -> {} //wizyty
+                    case 4 ->{} //showMyCalendar(loggedDoctor);
                     case 5 -> showMyOpinions(loggedDoctor);
                     default -> throw new IllegalStateException("Unexpected value: " + choice);
                 }
@@ -286,6 +288,9 @@ public class DoctorInterface {
         }
     }
 
+    public static void showMyCalendar(Doctor loggedDoctor){
+        System.out.println(Doctor.CreateMyCalendar());
+    }
     public static void showMyOpinions(Doctor loggedDoctor) {
         System.out.println("\nMy opinions:");
         for (Opinion opinion : loggedDoctor.getOpinions()) {

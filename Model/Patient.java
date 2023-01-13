@@ -1,6 +1,8 @@
 package Model;
 
+import Data.Connection;
 import Service.Appointment;
+import Service.Opinion;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -60,6 +62,9 @@ public class Patient extends Person implements Serializable {
         this.height = height;
     }
 
+    public void addOpinion(Opinion opinion) {
+        Doctor.setOpinion(opinion);
+    }
     @Override
     public String toString() {
         return  "Patient [" +

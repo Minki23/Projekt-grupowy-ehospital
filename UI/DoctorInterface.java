@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DoctorInterface {
 
-    public DoctorInterface() {
+    public static void mainInterface() {
 
         UserAccount.doctorLogin();
         if (UserAccount.getLoggedDoctor() != null) {
@@ -42,11 +42,11 @@ public class DoctorInterface {
         }
     }
 
-    public void displayMyProfile(Doctor loggedDoctor) {
+    public static void displayMyProfile(Doctor loggedDoctor) {
         System.out.println("\n" + loggedDoctor);
     }
 
-    public void editMyProfile(Doctor loggedDoctor) {
+    public static void editMyProfile(Doctor loggedDoctor) {
         int choice;
         do {
             System.out.println("\nYou are logged as: " + loggedDoctor);
@@ -95,21 +95,21 @@ public class DoctorInterface {
         while (choice != 0);
     }
 
-    public void changeFirstName(Doctor loggedDoctor) {
+    public static void changeFirstName(Doctor loggedDoctor) {
         System.out.print("Enter new first name: ");
         String newFirstName = UserData.nameValidate(Input.getString());
         loggedDoctor.setFirstName(newFirstName);
         System.out.println("\nFirst name changed successfully");
     }
 
-    public void changeSurname(Doctor loggedDoctor) {
+    public static void changeSurname(Doctor loggedDoctor) {
         System.out.print("Enter new surname: ");
         String newSurname = UserData.nameValidate(Input.getString());
         loggedDoctor.setFirstName(newSurname);
         System.out.println("\nSurname changed successfully");
     }
 
-    public void changePassword(Doctor loggedDoctor) {
+    public static void changePassword(Doctor loggedDoctor) {
         System.out.print("Enter old password: ");
         String oldPassword = Input.getString();
         if (oldPassword.equals(loggedDoctor.getPassword())) {
@@ -129,7 +129,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changePersonalIdNumber(Doctor loggedDoctor) {
+    public static void changePersonalIdNumber(Doctor loggedDoctor) {
         System.out.print("Enter new personal ID number: ");
         String newPersonalIdNumber = Input.getString();
         if (UserData.personalIDValidate(newPersonalIdNumber)) {
@@ -142,7 +142,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changeEmail(Doctor loggedDoctor) {
+    public static void changeEmail(Doctor loggedDoctor) {
         System.out.print("Enter new e-mail: ");
         String newEmail = Input.getString();
         if (UserData.emailValidate(newEmail)) {
@@ -154,7 +154,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changeContactNumber(Doctor loggedDoctor) {
+    public static void changeContactNumber(Doctor loggedDoctor) {
         System.out.print("Enter new contact number: ");
         String newContactNumber = Input.getString();
         if (UserData.phoneNumberValidate(newContactNumber)) {
@@ -167,21 +167,21 @@ public class DoctorInterface {
         }
     }
 
-    public void changeCity(Doctor loggedDoctor) {
+    public static void changeCity(Doctor loggedDoctor) {
         System.out.print("Enter new city: ");
         String newCity = UserData.nameValidate(Input.getString());
         loggedDoctor.setCity(newCity);
         System.out.println("\nCity changed successfully");
     }
 
-    public void changeStreet(Doctor loggedDoctor) {
+    public static void changeStreet(Doctor loggedDoctor) {
         System.out.print("Enter new street name: ");
         String newStreet = UserData.nameValidate(Input.getString());
         loggedDoctor.setStreet(newStreet);
         System.out.println("\nStreet name changed successfully");
     }
 
-    public void changeHouseNumber(Doctor loggedDoctor) {
+    public static void changeHouseNumber(Doctor loggedDoctor) {
         System.out.print("Enter new house number: ");
         int newHouseNumber = Input.getInt();
         if (UserData.positiveNumberValidate(newHouseNumber)) {
@@ -194,7 +194,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changeDateOfBirth(Doctor loggedDoctor) {
+    public static void changeDateOfBirth(Doctor loggedDoctor) {
         System.out.print("Enter new date of birth (YYY-MM-DD): ");
         String newDateOfBirth = Input.getString();
         if (UserData.dateValidate(newDateOfBirth)) {
@@ -208,7 +208,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changeGender(Doctor loggedDoctor) {
+    public static void changeGender(Doctor loggedDoctor) {
         System.out.print("Enter new gender (M - male / F - female): ");
         char newGender = Input.getChar();
         if (UserData.genderValidate(newGender)) {
@@ -221,7 +221,7 @@ public class DoctorInterface {
         }
     }
 
-    public void changeSpecialization(Doctor loggedDoctor) {
+    public static void changeSpecialization(Doctor loggedDoctor) {
         System.out.println("""
                 Choose new specialization:
                 \t1. Family doctor
@@ -248,7 +248,7 @@ public class DoctorInterface {
         }
     }
 
-    public List<Patient> searchForPatients() {
+    public static List<Patient> searchForPatients() {
         List<Patient> patients = new ArrayList<>();
 
         System.out.println("Enter first name and surname or personal ID number of the patient");
@@ -274,7 +274,7 @@ public class DoctorInterface {
         return patients;
     }
 
-    public void displayPatients(List<Patient> patients) {
+    public static void displayPatients(List<Patient> patients) {
         if (patients.size() == 0) {
             System.out.println("Patient not found");
         } else if (patients.size() == 1) {
@@ -286,12 +286,11 @@ public class DoctorInterface {
         }
     }
 
-    public void showMyOpinions(Doctor loggedDoctor) {
+    public static void showMyOpinions(Doctor loggedDoctor) {
         System.out.println("\nMy opinions:");
         for (Opinion opinion : loggedDoctor.getOpinions()) {
             System.out.println("\t" + opinion);
         }
         System.out.println("\nMy average opinion: " + loggedDoctor.getAverageOpinion());
     }
-
 }

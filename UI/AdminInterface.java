@@ -9,7 +9,7 @@ import Model.Patient;
 
 public class AdminInterface {
 
-    public AdminInterface() {
+    public static void mainInterface() {
 
         UserAccount.adminLogin();
         if (UserAccount.getLoggedAdmin() != null) {
@@ -53,13 +53,13 @@ public class AdminInterface {
         }
     }
 
-    public void continueButton() {
+    public static void continueButton() {
 
         System.out.print("Press any key to continue...");
         String continueButton = Input.getString();
     }
 
-    public void removePatientInterface(Admin loggedAdmin) {
+    public static void removePatientInterface(Admin loggedAdmin) {
 
         System.out.println("Choose patient to remove:");
         for (int i = 0; i < Connection.getPatients().size(); i++) {
@@ -70,7 +70,7 @@ public class AdminInterface {
         loggedAdmin.removePatient(Connection.getPatients().get(patientToRemove - 1));
     }
 
-    public void removeDoctorInterface(Admin loggedAdmin) {
+    public static void removeDoctorInterface(Admin loggedAdmin) {
 
         System.out.println("Choose doctor to remove");
         for (int i = 0; i < Connection.getDoctors().size(); i++) {
@@ -81,7 +81,7 @@ public class AdminInterface {
         loggedAdmin.removeDoctor(Connection.getDoctors().get(doctorToRemove - 1));
     }
 
-    public void acceptDoctorInterface(Admin loggedAdmin) {
+    public static void acceptDoctorInterface(Admin loggedAdmin) {
 
         System.out.println("Doctors pending requests:");
         int doctorToAccept;
@@ -102,7 +102,7 @@ public class AdminInterface {
         } while (doctorToAccept != 0);
     }
 
-    public void displayAllPatients() {
+    public static void displayAllPatients() {
 
         System.out.println("Patients registered in hospital: " + Connection.getPatients().size());
         System.out.println("Patients:");
@@ -112,7 +112,7 @@ public class AdminInterface {
         System.out.println();
     }
 
-    public void displayAllDoctors() {
+    public static void displayAllDoctors() {
 
         System.out.println("Doctors registered in hospital: " + Connection.getDoctors().size());
         System.out.println("Doctors:");

@@ -16,10 +16,10 @@ public class Hospital {
             switch (choice) {
                 case 0 -> {}
                 case 1 -> UserAccount.patientRegister();
-                case 2 -> new PatientInterface();
+                case 2 -> PatientInterface.mainInterface();
                 case 3 -> UserAccount.doctorRegister();
-                case 4 -> new DoctorInterface();
-                case 5 -> new AdminInterface();
+                case 4 -> DoctorInterface.mainInterface();
+                case 5 -> AdminInterface.mainInterface();
                 default -> throw new IllegalStateException("Unexpected value: " + choice);
             }
             System.out.println();

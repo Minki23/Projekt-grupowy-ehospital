@@ -3,16 +3,11 @@ package UI;
 
 import Data.Input;
 import GUI.PatientGraphicInterface;
-import Model.Doctor;
 import Model.Patient;
-import Model.Specialization;
-import Service.Appointment;
-
-import java.util.ArrayList;
 
 public class PatientInterface {
 
-    public PatientInterface() {
+    public static void mainInterface() {
 
         UserAccount.patientLogin();
         if (UserAccount.getLoggedPatient() != null) {
@@ -37,6 +32,7 @@ public class PatientInterface {
     public static void displayMyProfile(Patient loggedPatient) {
         System.out.println(loggedPatient);
     }
+
     public static void makeAnAppointment(Patient loggedPatient){
         System.out.println("|Choose Your specialist|");
         System.out.println("-----------------------");

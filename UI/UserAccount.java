@@ -1,8 +1,16 @@
 package UI;
 
+import GUI.Menu.PanelLogowanieAdmin;
+import GUI.Menu.PanelLogowaniePacjent;
+import GUI.Menu.PanelMenu;
+import GUI.Menu.PanelRejestracja;
+import GUI.PanelAdmina.PanelAdmin;
+import GUI.Skladowe.Powierzchnia;
 import Model.*;
 import Data.*;
 
+import java.awt.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -11,12 +19,18 @@ import java.util.regex.Pattern;
 
 public final class UserAccount {
 
-    private static final  String[] bloodGroups = {"A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-"};
+    public static String[] getBloodGroups() {
+        return bloodGroups;
+    }
+
+    private static String[] bloodGroups = {"Choose your blood type", "A+", "A-", "B+", "B-", "0+", "0-", "AB+", "AB-"};
+    private static String[] spetiality = {"Choose your spetiality", "family doctor", "heart specialist", "orthopedist", "gynecologist"};
     private static Patient loggedPatient;
     private static Doctor loggedDoctor;
     private static Admin loggedAdmin;
 
-    private UserAccount() {}
+    private UserAccount() {
+    }
 
     public static Admin getLoggedAdmin() {
         return loggedAdmin;
@@ -30,187 +44,98 @@ public final class UserAccount {
         return loggedDoctor;
     }
 
-    public static void patientRegister() {
+    public static String[] getSpetiality() {
+        return spetiality;
+    }
 
-        boolean safeCreate;
+    public static boolean found = false;
+    static String firstName = null;
+    static String surname = null;
+    static String password = null;
+    static String personalID = null;
+    static String email = null;
+    static String contactNumber = null;
+    static String addressCity = null;
+    static String addressStreet = null;
+    static String bloodGroup = null;
+    static int addressHouseNumber = 0;
+    static int weight = 0;
+    static int height = 0;
+    static LocalDate birthdate = null;
+    static char gender;
+    private static boolean safeCreate;
+    static Specialization specialization;
+    static int doctorID;
 
-        String firstName = null;
-        String surname = null;
-        String password = null;
-        String personalID = null;
-        String email = null;
-        String contactNumber = null;
-        String addressCity = null;
-        String addressStreet = null;
-        String bloodGroup = null;
-        int addressHouseNumber = 0;
-        int weight = 0;
-        int height = 0;
-        LocalDate birthdate = null;
-        char gender = 0;
+    public static void setSafeCreatePatient(boolean safeCreate) {
+        UserAccount.safeCreate = safeCreate;
+    }
+
+    public static void generalRegister() throws InputMismatchException {
+
+        firstName = UserData.enterFirstName();
+        surname = UserData.enterSurname();
+        password = UserData.enterPassword();
+        email = UserData.enterEmail();
+        birthdate = UserData.enterBirthdate();
+        personalID = UserData.enterPersonalIdNumber();
+        contactNumber = UserData.enterContactNumber();
+        addressCity = UserData.enterAddressCity();
+        addressStreet = UserData.enterAddressStreet();
+        addressHouseNumber = UserData.enterAddressHouseNumber();
+        gender = UserData.enterGender();
+    }
+
+    public static void patientRegister() throws IOException {
 
         System.out.println("\nPATIENT REGISTER\n");
-
-        do {
-            safeCreate = false;
-
-            try {
-                System.out.print("Enter first name: ");
-                firstName = getStringInput();
-                firstName = nameValidate(firstName);
-
-                System.out.print("Enter surname: ");
-                surname = getStringInput();
-                surname = nameValidate(surname);
-
-                System.out.print("Enter password: ");
-                password = getStringInput();
-                while (passwordValidate(password)) {
-                    System.out.println("Password must contains at least 8 characters!");
-                    System.out.print("Enter new password: ");
-                    password = getStringInput();
-                }
-
-                System.out.print("Enter email: ");
-                email = getStringInput();
-                while (emailValidate(email)) {
-                    System.out.println("Invalid email");
-                    System.out.print("Enter correct email: ");
-                    email = getStringInput();
-                }
-
-                System.out.print("Enter your date of birth (YYYY-MM-DD): ");
-                String birthdateInput = getStringInput();
-                while (dateValidate(birthdateInput)) {
-                    System.out.println("Invalid date");
-                    System.out.print("Enter correct date: ");
-                    birthdateInput = getStringInput();
-                }
-                birthdate = LocalDate.parse(birthdateInput);
-
-                System.out.print("Enter personal id number: ");
-                personalID = getStringInput();
-                while (personalIDValidate(personalID)) {
-                    System.out.println("Invalid personal ID number");
-                    System.out.print("Enter correct personal ID number: ");
-                    personalID = getStringInput();
-                }
-
-                System.out.print("Enter contact number: ");
-                contactNumber = getStringInput();
-                while (phoneNumberValidate(contactNumber)) {
-                    System.out.println("Invalid phone number");
-                    System.out.print("Enter correct phone number: ");
-                    contactNumber = getStringInput();
-                }
-
-                System.out.print("Enter the city you live in: ");
-                addressCity = getStringInput();
-                addressCity = nameValidate(addressCity);
-
-                System.out.print("Enter the street you live in: ");
-                addressStreet = getStringInput();
-                addressStreet = nameValidate(addressStreet);
-
-                System.out.print("Enter your house number: ");
-                addressHouseNumber = getIntInput();
-                while (positiveNumberValidate(addressHouseNumber)) {
-                    System.out.println("Invalid house number");
-                    System.out.print("Enter correct house number: ");
-                    addressHouseNumber = getIntInput();
-                }
-
-                System.out.println("Enter your gender:\nType M for male, or F for female");
-                System.out.print(": ");
-                gender = getCharInput();
-                while (genderValidate(gender)) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid gender: ");
-                    gender = getCharInput();
-                }
-
-                System.out.print("Enter your weight: ");
-                weight = getIntInput();
-                while (positiveNumberValidate(weight)) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid weight");
-                    weight = getIntInput();
-                }
-
-                System.out.print("Enter your height: ");
-                height = getIntInput();
-                while (!heightValidate(height)) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid height");
-                }
-
-                for (int i = 0; i < bloodGroups.length; i++) {
-                    System.out.println(i + 1 + ": " + bloodGroups[i]);
-                }
-                System.out.print("Choose your blood group: ");
-                int choice = getIntInput();
-                while (choice > 8 || choice < 1) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid input: ");
-                    choice = getIntInput();
-                }
-                bloodGroup = bloodGroups[choice - 1];
-            } catch (InputMismatchException InvalidInput) {
-                safeCreate = true;
-                System.out.println("\nInvalid data. Try again\n");
-            }
-        } while (safeCreate);
-
-        Connection.getPatients().add(new Patient(firstName, surname, password, personalID, email, contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, bloodGroup, weight, height));
-        Connection.savePatients();
-        System.out.println("Account created successfully!");
+        safeCreate = false;
+        generalRegister();
+        height = UserData.enterHeight();
+        weight = UserData.enterWeight();
+        bloodGroup = UserData.enterBloodGroup();
+        if (!safeCreate) {
+            Connection.getPatients().add(new Patient(firstName, surname, password, personalID, email, contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, bloodGroup, weight, height));
+            Connection.savePatients();
+            System.out.println("Account created successfully!");
+            Powierzchnia.getRamka().set(new PanelMenu());
+            safeCreate = true;
+        }
     }
 
     public static void patientLogin() {
-
-        System.out.println("\nPATIENT LOGIN\n");
-
         String personalIDNumber, password;
 
-        while (true) {
-            try {
-                System.out.print("Enter your personal ID number: ");
-                personalIDNumber = getStringInput();
-            } catch (InputMismatchException invalidInput) {
-                System.out.println("Invalid input - try again.");
-                continue;
-            }
-            if (!isNumeric(personalIDNumber)) {
-                System.out.println("Your input does not contain only digits");
-            } else if (personalIDNumber.length() > 11) {
-                System.out.println("You entered too many digits");
-            }
-            else if (personalIDNumber.length() < 11) {
-                System.out.println("You entered not enough digits");
-            }
-            else break;
-        }
+        // while (true) {
+        //     try {
+        //         System.out.print("Enter your personal ID number: ");
+        //     } catch (InputMismatchException invalidInput) {
+        //         System.out.println("Invalid input - try again.");
+        //         continue;
+        //     }
+        //     if (!isNumeric(personalIDNumber)) {
+        //         System.out.println("Your input does not contain only digits");
+        //     } else if (personalIDNumber.length() > 11) {
+        //         System.out.println("You entered too many digits");
+        //     } else if (personalIDNumber.length() < 11) {
+        //         System.out.println("You entered not enough digits");
+        //     } else break;
+        // }
+        //     try {
+        //         System.out.print("Enter your password: ");
+        //     } catch (InputMismatchException invalidInput) {
+        //         System.out.println("Invalid input - try again.");
+        //     }
+        personalIDNumber = PanelLogowaniePacjent.getTextFieldPeselPacjent().getText();
+        password = String.valueOf(PanelLogowaniePacjent.getTextFieldHasloPacjent().getPassword());
+        System.out.println(password);
 
-        while (true) {
-            try {
-                System.out.print("Enter your password: ");
-                password = getStringInput();
-            } catch (InputMismatchException invalidInput) {
-                System.out.println("Invalid input - try again.");
-                continue;
-            }
-            break;
-        }
-
-        boolean found = false;
         for (int i = 0; i < Connection.getPatients().size(); i++) {
             if (Connection.getPatients().get(i).getPersonalIdNumber().equals(personalIDNumber) && Connection.getPatients().get(i).getPassword().equals(password)) {
                 found = true;
                 loggedPatient = Connection.getPatients().get(i);
-                break;
             }
         }
-
         if (found) {
             System.out.println("Access granted");
         } else {
@@ -218,133 +143,20 @@ public final class UserAccount {
         }
     }
 
-    public static void doctorRegister() {
-
-        boolean safeCreate;
-
-        String firstName = null;
-        String surname = null;
-        String password = null;
-        String personalID = null;
-        String email = null;
-        String contactNumber = null;
-        String addressCity = null;
-        String addressStreet = null;
-        Specialization specialization = null;
-        int addressHouseNumber = 0;
-        LocalDate birthdate = null;
-        char gender = 0;
-
-        System.out.println("\nDOCTOR REGISTER\n");
-
-        do {
-            safeCreate = false;
-
-            try {
-                System.out.print("Enter first name: ");
-                firstName = getStringInput();
-                firstName = nameValidate(firstName);
-
-                System.out.print("Enter surname: ");
-                surname = getStringInput();
-                surname = nameValidate(surname);
-
-                System.out.print("Enter password: ");
-                password = getStringInput();
-                while (passwordValidate(password)) {
-                    System.out.println("Password must contains at least 8 characters!");
-                    System.out.print("Enter new password: ");
-                    password = getStringInput();
-                }
-
-                System.out.print("Enter email: ");
-                email = getStringInput();
-                while (emailValidate(email)) {
-                    System.out.println("Invalid email");
-                    System.out.print("Enter correct email: ");
-                    email = getStringInput();
-                }
-
-                System.out.print("Enter your date of birth (YYYY-MM-DD): ");
-                String birthdateInput = getStringInput();
-                while (dateValidate(birthdateInput)) {
-                    System.out.println("Invalid date");
-                    System.out.print("Enter correct date: ");
-                    birthdateInput = getStringInput();
-                }
-                birthdate = LocalDate.parse(birthdateInput);
-
-                System.out.print("Enter personal id number: ");
-                personalID = getStringInput();
-                while (personalIDValidate(personalID)) {
-                    System.out.println("Invalid personal ID number");
-                    System.out.print("Enter correct personal ID number: ");
-                    personalID = getStringInput();
-                }
-
-                System.out.print("Enter contact number: ");
-                contactNumber = getStringInput();
-                while (phoneNumberValidate(contactNumber)) {
-                    System.out.println("Invalid phone number");
-                    System.out.print("Enter correct phone number: ");
-                    contactNumber = getStringInput();
-                }
-
-                System.out.print("Enter the city you live in: ");
-                addressCity = getStringInput();
-                addressCity = nameValidate(addressCity);
-
-                System.out.print("Enter the street you live in: ");
-                addressStreet = getStringInput();
-                addressStreet = nameValidate(addressStreet);
-
-                System.out.print("Enter your house number: ");
-                addressHouseNumber = getIntInput();
-                while (positiveNumberValidate(addressHouseNumber)) {
-                    System.out.println("Invalid house number");
-                    System.out.print("Enter correct house number: ");
-                    addressHouseNumber = getIntInput();
-                }
-
-                System.out.println("Enter your gender:\nType M for male, or F for female");
-                System.out.print(": ");
-                gender = getCharInput();
-                while (genderValidate(gender)) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid gender: ");
-                    gender = getCharInput();
-                }
-
-                System.out.println("Choose your specialization form below:");
-                System.out.println("1: family doctor\n2: heart specialist\n3: orthopedist\n4: gynecologist");
-                System.out.print(": ");
-                int choice = getIntInput();
-                while (specializationValidate(choice)) {
-                    System.out.println("Invalid input");
-                    System.out.print("Enter valid choice: ");
-                    choice = getIntInput();
-                }
-
-                switch (choice) {
-                    case 1 -> specialization = new Specialization("family doctor");
-                    case 2 -> specialization = new Specialization("heart specialist");
-                    case 3 -> specialization = new Specialization("orthopedist");
-                    case 4 -> specialization = new Specialization("gynecologist");
-                    default -> specialization = new Specialization();
-                }
-            } catch (InputMismatchException invalidInput) {
-                safeCreate = true;
-                System.out.println("\nInvalid data. Try again\n");
-            }
-        } while (safeCreate);
-
-        Random random = new Random();
-        int doctorID = random.nextInt(1000, 9999);
-
-        Connection.getDoctorsRegisterRequests().add(new Doctor(firstName, surname, password, personalID, email, contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, specialization, doctorID));
-
-        System.out.println("Account created successfully!\nYour registration will be considered by an admin, after that you will be able to login");
-        Connection.saveDoctorsRequests();
+    public static void doctorRegister() throws IOException {
+        safeCreate = false;
+        generalRegister();
+        specialization = UserData.enterSpecialization();
+        doctorID = UserData.enterID();
+        if (!safeCreate) {
+            Connection.getDoctorsRegisterRequests().add(new Doctor(firstName, surname, password, personalID, email,
+                    contactNumber, addressCity, addressStreet, addressHouseNumber, birthdate, gender, specialization, doctorID));
+            System.out.println("Account created successfully!\nYour registration will be considered by an admin, after that you will be able to login");
+            Connection.saveDoctorsRequests();
+            System.out.println("Account created successfully!");
+            Powierzchnia.getRamka().set(new PanelMenu());
+            safeCreate = true;
+        }
     }
 
     public static void doctorLogin() {
@@ -364,11 +176,9 @@ public final class UserAccount {
             }
             if (doctorID > 9999) {
                 System.out.println("You entered too many digits");
-            }
-            else if (doctorID < 1000) {
+            } else if (doctorID < 1000) {
                 System.out.println("You entered not enough digits");
-            }
-            else break;
+            } else break;
         }
         while (true) {
             try {
@@ -402,53 +212,32 @@ public final class UserAccount {
         Connection.getAdmins().add(new Admin(doctorID, password));
     }
 
-    public static void adminLogin() {
+    public static void adminLogin() throws IOException {
 
         System.out.println("\nADMIN LOGIN\n");
 
-        int adminID;
+        int adminID = 0;
         String password;
-
-        while (true) {
-            try {
-                System.out.print("Enter admin ID: ");
-                adminID = getIntInput();
-            } catch (InputMismatchException invalidInput) {
-                System.out.println("Invalid input - try again.");
-                continue;
-            }
-            if (adminID > 9999) {
-                System.out.println("You entered too many digits");
-            }
-            else if (adminID < 1000) {
-                System.out.println("You entered not enough digits");
-            }
-            else break;
+        try {
+            adminID = Integer.parseInt(PanelLogowanieAdmin.getTextFieldIDLekarz().getText());
+        } catch (NumberFormatException ignored) {
         }
-        while (true) {
-            try {
-                System.out.print("Enter admin password: ");
-                password = getStringInput();
-            } catch (InputMismatchException invalidInput) {
-                System.out.println("Invalid input - try again.");
-                continue;
-            }
-            break;
-        }
-
-        boolean found = false;
+        ;
+        password = String.valueOf(PanelLogowanieAdmin.getTextFieldHasloLekarz().getPassword());
         for (int i = 0; i < Connection.getAdmins().size(); i++) {
             if (Connection.getAdmins().get(i).getAdminID() == adminID && Connection.getAdmins().get(i).getPassword().equals(password)) {
-                found = true;
                 loggedAdmin = Connection.getAdmins().get(i);
+                Powierzchnia.getRamka().set(new PanelAdmin());
+                password = null;
+                adminID = 0;
                 break;
+            } else {
+                PanelLogowanieAdmin.getLabelBlednyLoginLubHaslo().setVisible(true);
             }
         }
-
-        if (found) {
-            System.out.println("Access granted");
-        } else {
-            System.out.println("Access denied! Invalid ID or password ");
+        if (!found) {
+            PanelLogowanieAdmin.getLabelBlednyLoginLubHaslo().setForeground(Color.RED);
+            PanelLogowanieAdmin.getLabelBlednyLoginLubHaslo().repaint();
         }
     }
 
@@ -480,7 +269,7 @@ public final class UserAccount {
 
     public static boolean emailValidate(String email) {
 
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";

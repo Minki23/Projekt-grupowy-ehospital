@@ -1,0 +1,83 @@
+package GUI.Menu;
+
+import GUI.PanelAdmina.PanelAdmin;
+import GUI.Skladowe.PanelOgolny;
+import GUI.Skladowe.Powierzchnia;
+import UI.UserAccount;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.IOException;
+
+public class PanelLogowanieAdmin extends PanelOgolny {
+    private static JTextField TextFieldIDLekarz = new JTextField();
+    private static JPasswordField TextFieldHasloLekarz = new JPasswordField();
+
+    public static JTextField getTextFieldIDLekarz() {
+        return TextFieldIDLekarz;
+    }
+
+    public static JPasswordField getTextFieldHasloLekarz() {
+        return TextFieldHasloLekarz;
+    }
+
+    private boolean PoprawneHaslo = false;
+
+    public void setPoprawneHaslo(boolean poprawneHaslo) {
+        PoprawneHaslo = poprawneHaslo;
+    }
+    private static JLabel LabelBlednyLoginLubHaslo = new JLabel("Bledne ID lub Haslo");
+
+    public static JLabel getLabelBlednyLoginLubHaslo() {
+        return LabelBlednyLoginLubHaslo;
+    }
+
+    public PanelLogowanieAdmin() throws IOException {
+        TextFieldIDLekarz.setText("");
+        TextFieldHasloLekarz.setText("");
+        //Buttony
+        JButton ButtonZaloguj = new JButton("Zaloguj");
+        //Labele
+        JLabel LabelLogowaniePacjent = new JLabel("Logowanie Admin:");
+        JLabel LabelPesel = new JLabel("ID");
+        JLabel LabelHaslo = new JLabel("Haslo");
+        LabelBlednyLoginLubHaslo.setForeground(Color.RED);
+        LabelBlednyLoginLubHaslo.setVisible(false);
+        //Akcje Buttonow
+        ButtonZaloguj.addActionListener(e -> {
+            try {
+                UserAccount.adminLogin();
+                UserAccount.found=false;
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        //Textfieldy
+        TextFieldHasloLekarz.setEchoChar('*');
+        //Checkbox
+        JCheckBox CheckBoxPokazHaslo = new JCheckBox("Pokaz haslo");
+        CheckBoxPokazHaslo.setOpaque(false);
+        //Akcje CheckBoxow
+        CheckBoxPokazHaslo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    TextFieldHasloLekarz.setEchoChar((char) 0);
+                } else {
+                    TextFieldHasloLekarz.setEchoChar('*');
+                }
+            }
+        });
+        //Personalizacja obiektow
+        add(CheckBoxPokazHaslo, getC(8, 7, 0, 0, 0, 0));
+        add(LabelLogowaniePacjent, getC(7, 3, 0, 0, 10, 10));
+        add(LabelPesel, getC(7, 4, 0, 0, 10, 10));
+        add(TextFieldIDLekarz, getC(7, 5, 0, 0, 10, 10));
+        add(LabelHaslo, getC(7, 6, 0, 0, 10, 10));
+        add(TextFieldHasloLekarz, getC(7, 7, 0, 0, 10, 10));
+        add(LabelBlednyLoginLubHaslo, getC(7, 8, 0, 0, 0, 0));
+        add(ButtonZaloguj, getC(7, 9, 0, 0, 10, 10));
+        add(getButtonCofnij(), getC(1, 14, 0, 0, 0, 0));
+    }
+}

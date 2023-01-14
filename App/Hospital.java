@@ -1,18 +1,22 @@
 package App;
 
 import GUI.InitialGraphicInterface;
+import GUI.Menu.PanelMenu;
+import GUI.Skladowe.Powierzchnia;
 import Model.Doctor;
 import Model.Patient;
 import UI.*;
 import Data.*;
 
+import java.io.IOException;
+
 public class Hospital {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
 
         Connection.loadAllData();
-
+        Powierzchnia.getRamka().set(new PanelMenu());
         System.out.println("Patients number: " + Connection.getPatients().size());
         System.out.println("Doctor number: " + Connection.getDoctors().size());
         System.out.println(Connection.getAdmins().toString().replace("[", "").replace("]", ""));

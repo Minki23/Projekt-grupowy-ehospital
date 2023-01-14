@@ -8,6 +8,7 @@ public abstract class Person implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 8405575017400263966L;
+    private static String[] Blood={"A+", "B+", "AB+", "O+","A-", "B-", "AB-", "O-"};
     private String firstName;
     private String surname;
     private String password;
@@ -46,6 +47,10 @@ public abstract class Person implements Serializable {
         this.houseNumber = houseNumber;
         this.birthdate = birthdate;
         this.gender = gender;
+    }
+
+    public static String[] getBlood() {
+        return Blood;
     }
 
     public String getFirstName() {

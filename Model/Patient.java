@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Patient extends Person implements Serializable {
-
     private String bloodGroup;
     private int weight;
     private int height;

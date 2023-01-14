@@ -4,6 +4,8 @@ import Data.Connection;
 import GUI.AdminGraphicInterface;
 import Model.Admin;
 
+import java.io.IOException;
+
 public final class AdminInterface {
 
     private AdminInterface() {}
@@ -14,7 +16,7 @@ public final class AdminInterface {
         String continueButton = UserAccount.getStringInput();
     }
 
-    public static void mainInterface() {
+    public static void mainInterface() throws IOException {
 
         UserAccount.adminLogin();
         if (UserAccount.getLoggedAdmin() != null) {

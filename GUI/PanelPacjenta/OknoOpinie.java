@@ -1,10 +1,14 @@
 package GUI.PanelPacjenta;
 
+import GUI.Skladowe.PanelOgolny;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.RGBImageFilter;
@@ -12,33 +16,34 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-public final class OknoOpinie extends JPanel {
+public class OknoOpinie extends JPanel {
+    private static JDialog d;
     private static int value;
     private static String opinion;
     private static JFrame frame = new JFrame("Rate Your Doctor");
-    private static JTextArea jTextArea=new JTextArea();
-    private OknoOpinie() throws IOException {
+    private static PanelOgolny.HintTextField jTextArea=new PanelOgolny.HintTextField("Write your opinion here");
+    OknoOpinie() throws IOException {
         super(new GridLayout(3, 2, 4, 4));
         Image img = ImageIO.read(new File("Data/31g.png"));
         ImageIcon defaultIcon = new ImageIcon(img);
-
         ImageIcon star = makeStarImageIcon(img, new SelectedImageFilter(1f, 1f, 0f));
         List<ImageIcon> list4 = Arrays.asList(star, star, star, star, star, star, star, star, star, star);
         add(makeStarRatingPanel(new LevelBar(defaultIcon, list4, 1)));
         add(MakeTextField());
         add(AddButton());
-        setPreferredSize(new Dimension(320, 120));
+        setPreferredSize(new Dimension(320, 180));
     }
 
     private JPanel makeStarRatingPanel(LevelBar label) {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        p.setBorder(BorderFactory.createTitledBorder(""));
+        p.setBorder(BorderFactory.createTitledBorder(PanelChorobyILeki.getDoctor().getFirstName()+" "+PanelChorobyILeki.getDoctor().getSurname()));
         p.add(label);
         return p;
     }
     private JPanel MakeTextField(){
         JPanel PanelTextArea= new JPanel(new GridLayout(1,1,0,0));
         jTextArea.setBounds(0,0,320,120);
+        jTextArea.setBackground(Color.white);
         PanelTextArea.add(jTextArea);
         return PanelTextArea;
     }
@@ -50,7 +55,10 @@ public final class OknoOpinie extends JPanel {
             opinion=jTextArea.getText();
             System.out.println(PanelChorobyILeki.getDoctor().getFirstName()+" "+PanelChorobyILeki.getDoctor().getSurname()+" Ocena:" +
                     ""+value+" O tresci: "+"'"+opinion+"'");
-            frame.dispose();
+            jTextArea.setText("");
+            jTextArea.setBackground(Color.white);
+            LevelBar.setClicked(0);
+            d.dispose();
         });
         PanelButton.add(ButtonSubmit);
         return PanelButton;
@@ -69,13 +77,18 @@ public final class OknoOpinie extends JPanel {
             ex.printStackTrace();
             return;
         }
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.getContentPane().add(new OknoOpinie());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        d = new JDialog();
+        d.setTitle(frame.getTitle());
+        d.setModal(true);
+        d.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        OknoOpinie a=new OknoOpinie();
+        d.getContentPane().add(a);
+        d.pack();
+        d.setLocationRelativeTo(null);
+        d.setVisible(true);
+        jTextArea.requestFocus();
     }
-    static class LevelBar extends JPanel {
+    class LevelBar extends JPanel {
         private final int gap;
         private final List<ImageIcon> iconList;
         private final List<JLabel> labelList = Arrays.asList(
@@ -83,14 +96,19 @@ public final class OknoOpinie extends JPanel {
                 new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()
         );
         protected final ImageIcon defaultIcon;
-        protected int clicked = -1;
+        private static int clicked = -1;
         private transient MouseAdapter handler;
+
+        public static void setClicked(int clicked) {
+            LevelBar.clicked=clicked;
+        }
 
         protected LevelBar(ImageIcon defaultIcon, List<ImageIcon> list, int gap) {
             super(new GridLayout(1, 10, gap * 2, gap * 10));
             this.defaultIcon = defaultIcon;
             this.iconList = list;
             this.gap = gap;
+            repaintIcon(clicked);
             for (JLabel l : labelList) {
                 l.setIcon(defaultIcon);
                 add(l);
@@ -116,7 +134,7 @@ public final class OknoOpinie extends JPanel {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     clicked = getSelectedIconIndex(e.getPoint());
-                    value=getSelectedIconIndex(e.getPoint())+1;
+                    value=clicked+1;
                 }
 
                 @Override
@@ -140,7 +158,7 @@ public final class OknoOpinie extends JPanel {
             return -1;
         }
 
-        protected void repaintIcon(int index) {
+        public void repaintIcon(int index) {
             for (int i = 0; i < labelList.size(); i++) {
                 labelList.get(i).setIcon(i <= index ? iconList.get(i) : defaultIcon);
             }

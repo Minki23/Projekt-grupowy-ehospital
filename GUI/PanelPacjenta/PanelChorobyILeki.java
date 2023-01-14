@@ -73,6 +73,7 @@ public class PanelChorobyILeki extends PanelOgolny {
         ButtonRateDoctor.addActionListener(e->{
             doctor=Connection.getDoctors().get(ComboBoxLekarze.getSelectedIndex());
             try {
+                OknoOpinie.LevelBar.setClicked(-1);
                 OknoOpinie.createAndShowGui();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);

@@ -26,8 +26,6 @@ public class PanelAdmin extends PanelOgolny {
         }
         JButton ButtonUsunPacjenta = new JButton("Usun wybranego pacjenta");
         JButton ButtonUsunDoktora = new JButton("Usun wybranego doktora");
-        JLabel LabelUsunPacjentow = new JLabel("Usun pacjentow");
-        JLabel LabelUsunLekarzy = new JLabel("Usun Lekarzy");
         JLabel LabelPanelAdmina = new JLabel("Panel admina");
         JLabel LabelDoctorName = new JLabel();
         JLabel LabelDoctorID = new JLabel();
@@ -54,29 +52,33 @@ public class PanelAdmin extends PanelOgolny {
         add(LabelDoctorPassword, getC(6, 7, 0, 0, 0, 0));
         add(LabelDoctorSpetialization,getC(6,8,0,0,0,0));
         ButtonUsunPacjenta.addActionListener(e -> {
-            UserAccount.getLoggedAdmin().removePatient(Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()));
-            ComboBoxPatients.removeItemAt(ComboBoxPatients.getSelectedIndex());
-            System.out.println("Usunieto");
-            Connection.savePatients();
-            revalidate();
-            repaint();
+            try {
+                UserAccount.getLoggedAdmin().removePatient(Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()));
+                ComboBoxPatients.removeItemAt(ComboBoxPatients.getSelectedIndex());
+                System.out.println("Usunieto");
+                Connection.savePatients();
+                revalidate();
+                repaint();
+            }catch (IndexOutOfBoundsException ignored){}
         });
         ButtonUsunDoktora.addActionListener(e -> {
-            UserAccount.getLoggedAdmin().removeDoctor(Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()));
-            ComboBoxDoctors.removeItemAt(ComboBoxDoctors.getSelectedIndex());
-            Connection.saveDoctors();
-            revalidate();
-            repaint();
+            try {
+                UserAccount.getLoggedAdmin().removeDoctor(Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()));
+                ComboBoxDoctors.removeItemAt(ComboBoxDoctors.getSelectedIndex());
+                Connection.saveDoctors();
+                revalidate();
+                repaint();
+            }catch (IndexOutOfBoundsException ignored){}
         });
         ComboBoxPatients.addActionListener(e -> {
             LabelPatientName.setText("Name:"+Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()).getFirstName() + " " + Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()).getSurname());
-            LabelPatientID.setText(String.valueOf("Personal ID:"+Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()).getPersonalIdNumber()));
+            LabelPatientID.setText("Personal ID:" + Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()).getPersonalIdNumber());
             LabelPatientPassword.setText("Password:"+Connection.getPatients().get(ComboBoxPatients.getSelectedIndex()).getPassword());
             repaint();
         });
         ComboBoxDoctors.addActionListener(e -> {
             LabelDoctorName.setText("Name:"+Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getFirstName() + " " + Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getSurname());
-            LabelDoctorID.setText(String.valueOf("ID:"+Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getDoctorId()));
+            LabelDoctorID.setText("ID:" + Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getDoctorId());
             LabelDoctorPassword.setText("Password:"+Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getPassword());
             LabelDoctorSpetialization.setText("Spetialization:"+Connection.getDoctors().get(ComboBoxDoctors.getSelectedIndex()).getSpecialization().getName());
             repaint();
@@ -93,15 +95,17 @@ public class PanelAdmin extends PanelOgolny {
         add(Oczekujacy,getC(2,9,0,0,0,0));
         add(Zatwierdz,getC(3,9,0,0,40,0));
         Zatwierdz.addActionListener(e->{
-            UserAccount.getLoggedAdmin().acceptDoctor(Connection.getDoctorsRegisterRequests().get(Oczekujacy.getSelectedIndex()));
-            Oczekujacy.removeItemAt(Oczekujacy.getSelectedIndex());
-            ComboBoxDoctors.addItem(Connection.getDoctors().get(Connection.getDoctors().size()-1).getFirstName()+" " +
-                    ""+Connection.getDoctors().get(Connection.getDoctors().size()-1).getSurname()+
-                    " spetialization: "+Connection.getDoctors().get(Connection.getDoctors().size()-1).getSpecialization().getName());
-            Connection.saveDoctorsRequests();
-            Connection.saveDoctors();
-            repaint();
-            revalidate();
+            try {
+                UserAccount.getLoggedAdmin().acceptDoctor(Connection.getDoctorsRegisterRequests().get(Oczekujacy.getSelectedIndex()));
+                Oczekujacy.removeItemAt(Oczekujacy.getSelectedIndex());
+                ComboBoxDoctors.addItem(Connection.getDoctors().get(Connection.getDoctors().size() - 1).getFirstName() + " " +
+                        "" + Connection.getDoctors().get(Connection.getDoctors().size() - 1).getSurname() +
+                        " spetialization: " + Connection.getDoctors().get(Connection.getDoctors().size() - 1).getSpecialization().getName());
+                Connection.saveDoctorsRequests();
+                Connection.saveDoctors();
+                repaint();
+                revalidate();
+            }catch (IndexOutOfBoundsException ignored){}
         });
     }
 }

@@ -6,8 +6,8 @@ import GUI.Skladowe.Powierzchnia;
 
 import java.io.IOException;
 
-import static UI.AdminInterface.AdminInterface.displayAllDoctors;
-import static UI.AdminInterface.AdminInterface.displayAllPatients;
+import static UI.AdminInterface.displayAllDoctors;
+import static UI.AdminInterface.displayAllPatients;
 
 public class Hospital {
     public static void main(String[] args) throws IOException {

@@ -61,9 +61,9 @@ public class Patient extends Person implements Serializable {
         this.height = height;
     }
 
-    public void addOpinion(Opinion opinion) {
-        Doctor.setOpinion(opinion);
-    }
+    //public void addOpinion(Opinion opinion) {
+    //    Doctor.setOpinion(opinion);
+    //}
     @Override
     public String toString() {
         return  "Patient [" +

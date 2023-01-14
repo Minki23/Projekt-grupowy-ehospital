@@ -9,6 +9,7 @@ import GUI.Skladowe.Powierzchnia;
 import Model.*;
 import Data.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import static GUI.Menu.PanelRejestracja.*;
 
 public final class UserAccount {
 
@@ -28,6 +31,10 @@ public final class UserAccount {
     private static Patient loggedPatient;
     private static Doctor loggedDoctor;
     private static Admin loggedAdmin;
+
+    public static boolean isSafeCreate() {
+        return safeCreate;
+    }
 
     private UserAccount() {
     }
@@ -111,6 +118,7 @@ public final class UserAccount {
             Connection.savePatients();
             System.out.println("Account created successfully!");
             Powierzchnia.getRamka().set(new PanelMenu());
+            PanelRejestracja.clearText();
             safeCreate = true;
         }
     }
@@ -167,6 +175,7 @@ public final class UserAccount {
             Connection.saveDoctorsRequests();
             System.out.println("Account created successfully!");
             Powierzchnia.getRamka().set(new PanelMenu());
+            PanelRejestracja.clearText();
             safeCreate = true;
         }
     }

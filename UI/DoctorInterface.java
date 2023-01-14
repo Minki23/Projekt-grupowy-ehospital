@@ -288,9 +288,9 @@ public class DoctorInterface {
         }
     }
 
-    public static void showMyCalendar(Doctor loggedDoctor){
-        System.out.println(Doctor.CreateMyCalendar());
-    }
+    //public static void showMyCalendar(Doctor loggedDoctor){
+    //    System.out.println(Doctor.CreateMyCalendar());
+    //}
     public static void showMyOpinions(Doctor loggedDoctor) {
         System.out.println("\nMy opinions:");
         for (Opinion opinion : loggedDoctor.getOpinions()) {

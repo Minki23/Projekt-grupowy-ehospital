@@ -2,7 +2,6 @@ package GUI.Menu;
 
 import GUI.Skladowe.PanelOgolny;
 import GUI.Skladowe.Powierzchnia;
-import Model.Doctor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,9 +11,23 @@ import java.io.IOException;
 
 public class PanelMenu extends PanelOgolny {
     static Image scaled;
+    private static PanelMenu menu;
+
+    static {
+        try {
+            menu = new PanelMenu();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static PanelMenu getMenu() {
+        return menu;
+    }
+
     public PanelMenu() throws IOException {
         super();
-        Image backgroundImage = ImageIO.read(new File("tlo1.png"));
+        Image backgroundImage = ImageIO.read(new File("Data/tlo1.png"));
         scaled = backgroundImage.getScaledInstance(Powierzchnia.getRamka().getWidth(), Powierzchnia.getRamka().getHeight(), Image.SCALE_SMOOTH);
         //Labele
         JLabel LabelLogowanie = new JLabel("Strona Logowania");

@@ -1,5 +1,6 @@
 package GUI.Menu;
 
+import Data.UserData;
 import GUI.Skladowe.PanelOgolny;
 import GUI.Skladowe.PanelPusty;
 import UI.UserAccount;
@@ -68,6 +69,16 @@ public class PanelRejestracja extends PanelOgolny {
         return TextFieldDoctorID;
     }
 
+    static JComponent[] tab = {LabelImie, LabelNazwisko, LabelTelefon, LabelMiastoZamieszkania, LabelAdresZamieszkania, LabelNumerZamieszkania,
+            LabelDataUrodzenia, LabelWzrost, TextFieldImie, TextFieldNazwisko, TextFieldTelefon, TextFieldMiastoZamieszkania, TextFieldAdresZamieszkania,
+            TextFieldNumerZamieszkania, TextFieldDataUrodzenia, TextFieldWzrost, LabelNazwisko, LabelPesel, LabelGrupaKrwi, LabelWaga,
+            LabelWybierzPlec, RadioButtonKobieta, TextFieldAdresEmail, TextFieldPesel, TextFieldGrupaKrwi, TextFieldWaga,
+            new PanelPusty(), RadioButtonMezczyzna, TextFieldHaslo, TextFieldDoctorID};
+
+    public static JComponent[] getTab() {
+        return tab;
+    }
+
     public PanelRejestracja() throws IOException {
         JButton ButtonAsDoctor = new JButton("As Doctor");
         JButton ButtonAsPatient = new JButton("As Patient");
@@ -104,11 +115,6 @@ public class PanelRejestracja extends PanelOgolny {
         RadioButtonKobieta.setOpaque(false);
         RadioButtonMezczyzna.setOpaque(false);
 
-        JComponent[] tab = {LabelImie, LabelNazwisko, LabelTelefon, LabelMiastoZamieszkania, LabelAdresZamieszkania, LabelNumerZamieszkania,
-                LabelDataUrodzenia, LabelWzrost, TextFieldImie, TextFieldNazwisko, TextFieldTelefon, TextFieldMiastoZamieszkania, TextFieldAdresZamieszkania,
-                TextFieldNumerZamieszkania, TextFieldDataUrodzenia, TextFieldWzrost, LabelNazwisko, LabelPesel, LabelGrupaKrwi, LabelWaga,
-                LabelWybierzPlec, RadioButtonKobieta, TextFieldAdresEmail, TextFieldPesel, TextFieldGrupaKrwi, TextFieldWaga,
-                new PanelPusty(), RadioButtonMezczyzna, TextFieldHaslo};
         RadioButtonKobieta.setHorizontalAlignment(SwingConstants.RIGHT);
         for (int i = 0; i < 16; i++) {
             if (tab[i].getClass() == JLabel.class) {
@@ -139,8 +145,8 @@ public class PanelRejestracja extends PanelOgolny {
             LabelHaslo.setHorizontalAlignment(SwingConstants.RIGHT);
             add(RadioButtonKobieta, getC(5, 10, 0, 0, 0, 0));
             add(RadioButtonMezczyzna, getC(6, 10, 0, 0, 0, 0));
-            add(LabelDoctorID,getC(5,11,0,0,0,0));
-            add(TextFieldDoctorID,getC(6,11,0,0,0,0));
+            add(LabelDoctorID, getC(5, 11, 0, 0, 0, 0));
+            add(TextFieldDoctorID, getC(6, 11, 0, 0, 0, 0));
             LabelDoctorID.setHorizontalAlignment(SwingConstants.RIGHT);
             LabelWybierzPlec.setHorizontalAlignment(SwingConstants.RIGHT);
             add(LabelWybierzPlec, getC(5, 9, 0, 0, 100, 0));
@@ -155,6 +161,16 @@ public class PanelRejestracja extends PanelOgolny {
             if (ButtonAsPatient.isEnabled()) {
                 try {
                     UserAccount.doctorRegister();
+                    if (!UserAccount.isSafeCreate()) {
+                        for (JComponent jComponent : tab) {
+                            if (jComponent instanceof JTextField) {
+                                ((JTextField) jComponent).setText("");
+                                jComponent.setBackground(Color.WHITE);
+                            }
+                            ComboBoxBloodGroup.setBackground(Color.WHITE);
+                            ComboBoxBloodGroup.setSelectedIndex(0);
+                        }
+                    }
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -166,25 +182,8 @@ public class PanelRejestracja extends PanelOgolny {
                 }
             }
         });
-        getButtonCofnij().addActionListener(e -> {
-            for (int i = 0; i < tab.length; i++) {
-                if (tab[i] instanceof JTextField) {
-                    ((JTextField) tab[i]).setText("");
-                    tab[i].setBackground(Color.WHITE);
-                }
-            }
-            ComboBoxBloodGroup.setBackground(Color.WHITE);
-            ComboBoxBloodGroup.setSelectedIndex(0);
-        });
+        getButtonCofnij().addActionListener(e ->clearText());
     }
-    // static {
-    //     try {
-    //         panelrejestracja = new PanelRejestracja();
-    //     } catch (IOException e) {
-    //         throw new RuntimeException(e);
-    //     }
-    // }
-
     public static JTextField getTextFieldImie() {
         return TextFieldImie;
     }
@@ -246,8 +245,19 @@ public class PanelRejestracja extends PanelOgolny {
             return 'b';
         }
     }
-
     public static JComboBox getComboBoxSpetialities() {
         return ComboBoxSpetialities;
+    }
+    public static void clearText(){
+        for (JComponent jComponent : PanelRejestracja.getTab()) {
+            if (jComponent instanceof JTextField) {
+                ((JTextField) jComponent).setText("");
+                jComponent.setBackground(Color.WHITE);
+            }
+            ComboBoxSpetialities.setSelectedIndex(0);
+            ComboBoxSpetialities.setBackground(Color.WHITE);
+            getComboBoxBloodGroup().setBackground(Color.WHITE);
+            getComboBoxBloodGroup().setSelectedIndex(0);
+        }
     }
 }

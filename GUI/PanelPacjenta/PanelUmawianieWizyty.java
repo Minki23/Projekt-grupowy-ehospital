@@ -43,8 +43,8 @@ public class PanelUmawianieWizyty extends PanelOgolny {
         int y=0;
         for (int i = 0; i < Connection.getDoctors().size(); i++) {
             if(Objects.equals(Connection.getDoctors().get(i).getSpecialization().getName(), specjalizacja)) {
-               // specjal=Connection.getDoctors().get(i).getSpecialization().getName();
-               // doctor=Connection.getDoctors().get(i).getFirstName()+" "+Connection.getDoctors().get(i).getFirstName();
+                specjal=Connection.getDoctors().get(i).getSpecialization().getName();
+                doctor=Connection.getDoctors().get(i).getFirstName()+" "+Connection.getDoctors().get(i).getFirstName();
                 JButton buttonlekarz = new JButton(Connection.getDoctors().get(i).getFirstName()+" "+Connection.getDoctors().get(i).getSurname());
                 add(buttonlekarz, getC(6, 6 + 2 * y, 0, 0, 0, 0));
                 buttonlekarz.addActionListener(e -> {

@@ -23,21 +23,13 @@ public abstract class PanelOgolny extends JPanel {
         ButtonWyloguj.addActionListener(e ->{
             PanelChorobyILeki.getHistoria().dispatchEvent(new WindowEvent(PanelChorobyILeki.getHistoria(), WindowEvent.WINDOW_CLOSING));
             PanelChorobyILeki.getLeki().dispatchEvent(new WindowEvent(PanelChorobyILeki.getLeki(), WindowEvent.WINDOW_CLOSING));
-            try {
-                Powierzchnia.getRamka().set(new PanelMenu());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Powierzchnia.getRamka().set(PanelMenu.getMenu());
         });
         //akcje buttonow
         ButtonCofnij.addActionListener(e -> {
-            try {
-                Powierzchnia.getRamka().set(new PanelMenu());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Powierzchnia.getRamka().set(PanelMenu.getMenu());
         });
-        Image backgroundImage = ImageIO.read(new File("tlo3.jpg"));
+        Image backgroundImage = ImageIO.read(new File("Data/tlo3.jpg"));
         scaled = backgroundImage.getScaledInstance(Powierzchnia.getRamka().getWidth(), Powierzchnia.getRamka().getHeight(), Image.SCALE_SMOOTH);
         setLayout(new GridBagLayout());
         for (int i = 0; i < 15; i++) {

@@ -75,7 +75,7 @@ public class PatientInterface {
                 System.out.println("Give a comment");
                 String comment = Input.getString();
                 Opinion opinion = new Opinion(value, comment);
-                Doctor.setOpinion(opinion);
+                //Doctor.setOpinion(opinion);
                 System.out.println("Thank your for your opinion!");
                 System.out.println("Do you want to give another opinion? Enter Y  or N");
                 String nextOpinion = Input.getString();

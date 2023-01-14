@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.RGBImageFilter;
@@ -16,12 +14,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
 public class OknoOpinie extends JPanel {
     private static JDialog d;
     private static int value;
     private static String opinion;
     private static JFrame frame = new JFrame("Rate Your Doctor");
-    private static PanelOgolny.HintTextField jTextArea=new PanelOgolny.HintTextField("Write your opinion here");
+    private static PanelOgolny.HintTextField jTextArea = new PanelOgolny.HintTextField("Write your opinion here");
+
     OknoOpinie() throws IOException {
         super(new GridLayout(3, 2, 4, 4));
         Image img = ImageIO.read(new File("Data/31g.png"));
@@ -36,33 +37,46 @@ public class OknoOpinie extends JPanel {
 
     private JPanel makeStarRatingPanel(LevelBar label) {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        p.setBorder(BorderFactory.createTitledBorder(PanelChorobyILeki.getDoctor().getFirstName()+" "+PanelChorobyILeki.getDoctor().getSurname()));
+        p.setBorder(BorderFactory.createTitledBorder("Oceniany lekarz: "+PanelChorobyILeki.getDoctor().getFirstName() + " " + PanelChorobyILeki.getDoctor().getSurname()));
         p.add(label);
         return p;
     }
-    private JPanel MakeTextField(){
-        JPanel PanelTextArea= new JPanel(new GridLayout(1,1,0,0));
-        jTextArea.setBounds(0,0,320,120);
+
+    private JPanel MakeTextField() {
+        JPanel PanelTextArea = new JPanel(new GridLayout(1, 1, 0, 0));
+        jTextArea.setBounds(0, 0, 320, 120);
         jTextArea.setBackground(Color.white);
         PanelTextArea.add(jTextArea);
         return PanelTextArea;
     }
-    private JPanel AddButton(){
-        JPanel PanelButton= new JPanel(new GridLayout(1,1,0,0));
-        JButton ButtonSubmit=new JButton("Submit");
-        ButtonSubmit.setBounds(110,40,100,40);
-        ButtonSubmit.addActionListener(e->{
-            opinion=jTextArea.getText();
-            System.out.println(PanelChorobyILeki.getDoctor().getFirstName()+" "+PanelChorobyILeki.getDoctor().getSurname()+" Ocena:" +
-                    ""+value+" O tresci: "+"'"+opinion+"'");
-            jTextArea.setText("");
-            jTextArea.setBackground(Color.white);
-            LevelBar.setClicked(0);
-            d.dispose();
+
+    private JPanel AddButton() {
+        JPanel PanelButton = new JPanel(new GridLayout(1, 1, 0, 0));
+        JButton ButtonSubmit = new JButton("Submit");
+        ButtonSubmit.setIgnoreRepaint(true);
+        ButtonSubmit.setBounds(0, 0, 100, 40);
+        ButtonSubmit.addActionListener(e -> {
+            opinion = jTextArea.getText();
+            if ((Objects.equals(opinion, "")) && (value == 0)) {
+                jTextArea.setText("");
+                jTextArea.setBackground(Color.white);
+                LevelBar.setClicked(0);
+                LevelBar.setValue(0);
+                d.dispose();
+            } else {
+                System.out.println(PanelChorobyILeki.getDoctor().getFirstName() + " " + PanelChorobyILeki.getDoctor().getSurname() + " Ocena:" +
+                        "" + value + " O tresci: " + "'" + opinion + "'");
+                jTextArea.setText("");
+                jTextArea.setBackground(Color.white);
+                LevelBar.setClicked(0);
+                LevelBar.setValue(0);
+                d.dispose();
+            }
         });
         PanelButton.add(ButtonSubmit);
         return PanelButton;
     }
+
     private static ImageIcon makeStarImageIcon(Image image, ImageFilter filter) {
         FilteredImageSource producer = new FilteredImageSource(image.getSource(), filter);
         return new ImageIcon(Toolkit.getDefaultToolkit().createImage(producer));
@@ -81,13 +95,14 @@ public class OknoOpinie extends JPanel {
         d.setTitle(frame.getTitle());
         d.setModal(true);
         d.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        OknoOpinie a=new OknoOpinie();
+        OknoOpinie a = new OknoOpinie();
         d.getContentPane().add(a);
         d.pack();
         d.setLocationRelativeTo(null);
         d.setVisible(true);
         jTextArea.requestFocus();
     }
+
     class LevelBar extends JPanel {
         private final int gap;
         private final List<ImageIcon> iconList;
@@ -98,9 +113,14 @@ public class OknoOpinie extends JPanel {
         protected final ImageIcon defaultIcon;
         private static int clicked = -1;
         private transient MouseAdapter handler;
+        private int value;
+
+        public static void setValue(int value) {
+            LevelBar.clicked = value;
+        }
 
         public static void setClicked(int clicked) {
-            LevelBar.clicked=clicked;
+            LevelBar.clicked = clicked;
         }
 
         protected LevelBar(ImageIcon defaultIcon, List<ImageIcon> list, int gap) {
@@ -134,7 +154,7 @@ public class OknoOpinie extends JPanel {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     clicked = getSelectedIconIndex(e.getPoint());
-                    value=clicked+1;
+                    value = clicked + 1;
                 }
 
                 @Override
@@ -160,7 +180,9 @@ public class OknoOpinie extends JPanel {
 
         public void repaintIcon(int index) {
             for (int i = 0; i < labelList.size(); i++) {
-                labelList.get(i).setIcon(i <= index ? iconList.get(i) : defaultIcon);
+                if (labelList.get(i).getClass() == JLabel.class) {
+                    labelList.get(i).setIcon(i <= index ? iconList.get(i) : defaultIcon);
+                }
             }
             repaint();
         }

@@ -5,7 +5,7 @@ import Data.Connection;
 import java.io.Serial;
 import java.io.Serializable;
 
-public class Admin implements Serializable {
+public class    Admin implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -1258337360769044482L;

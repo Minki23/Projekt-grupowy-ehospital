@@ -48,6 +48,18 @@ public final class UserAccount {
         return spetiality;
     }
 
+    public static void setLoggedPatient(Patient loggedPatient) {
+        UserAccount.loggedPatient = loggedPatient;
+    }
+
+    public static void setLoggedDoctor(Doctor loggedDoctor) {
+        UserAccount.loggedDoctor = loggedDoctor;
+    }
+
+    public static void setLoggedAdmin(Admin loggedAdmin) {
+        UserAccount.loggedAdmin = loggedAdmin;
+    }
+
     public static boolean found = false;
     static String firstName = null;
     static String surname = null;
